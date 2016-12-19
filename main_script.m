@@ -81,7 +81,7 @@ a = -log(1e-15)/(Kmax_s-kcut_s)^s * dy^s;
 K=sqrt(KX.^2+KY.^2);
 
 FILTER = 1*ones(Ny,Nx).*abs(K<=Ny/3) + exp(-a*(K-kcut).^s).*abs(K>Ny/3);
-FILTER(KX==0&KY==0)=0;
+% FILTER(KX==0&KY==0)=0;
 if nofilter==1, FILTER = ones(Ny,Nx);end;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
