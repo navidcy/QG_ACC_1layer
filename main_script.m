@@ -155,18 +155,13 @@ formstress(1) = real(mean(conj(zhat(:)./del2(:)).*(1i*KX(:).*etahat(:)))) / (Nx*
 
 for it=2:length(T)
 
-    
+
     % calculate \bar{zeta}
     if it>NtMean
       zhatMean = zhatMean*(1-1/iterMean) + zhat/iterMean ;
       iterMean = iterMean + 1;
     end
-    
-    if rem(T(it-1),200)==1
-        zhat = zhat + (randn(Ny,Nx)+1i*randn(Ny,Nx)).*1e-03*max(abs(zhat(:))).*FILTER;
-    end
-        
-    
+
     % time-step U,zhat
     [zhatnew,Unew] = time_step_ETDRK4(zhat,U,eL,eL2,Qfac,fu,fab,fc,dt);
     U = Unew;
@@ -174,25 +169,25 @@ for it=2:length(T)
 
     % save U(t)
     Ut(it)=U;
-    
+
     % save E_U(t)
     EU(it) = 0.5*U^2;
-    
+
     % save E_psi(t)
     Epsi(it) = -.5*sum(abs(zhat(:)).^2./del2(:))/(Nx*Ny)^2;
-    
+
     % save formstress(t)
     formstress(it) = real(mean(conj(zhat(:)./del2(:)).*(1i*KX(:).*etahat(:)))) / (Nx*Ny);
-        
+
     % save Q_psi(t)
     Qpsi(it) = 0.5*sum(abs(zhat(:)).^2)/(Nx*Ny)^2;
-        
+
     % every Nplot time-steps plot fields
     if rem(it,Nplot)==1||it==length(T)
-        
+
         % calculate fields in physical space
         psihat = zhat./del2;
-        zeta=real(ifft2(zhat));      
+        zeta=real(ifft2(zhat));
         psi = real(ifft2(psihat));
         zetaMean = real(ifft2(zhatMean));
         u = real(ifft2(-1i*KY.*psihat));
@@ -204,9 +199,9 @@ for it=2:length(T)
         if cfl>.8
             error('cfl > 0.8, reduce dt');
         end
-        
+
         % plot fields
         plot_figs
     end
-    
+
 end
