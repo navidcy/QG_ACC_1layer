@@ -31,7 +31,7 @@ clim=get(gca,'CLim');caxis([-1 1]*.805*min(abs(clim)))
 subplot(nRow,nCol,2)
 pcolor2(X,Y,psi/(ell^2*etarms));shading interp;
 hold on;
-quiver(X(1:np:end,1:np:end),Y(1:np:end,1:np:end),U+u(1:np:end,1:np:end),v(1:np:end,1:np:end),2,'k','linewidth',0.5)
+quiver(X(1:np:end,1:np:end),Y(1:np:end,1:np:end),u(1:np:end,1:np:end),v(1:np:end,1:np:end),2,'k','linewidth',0.5)
 hold off;
 axis square;colorbar;
 axis([0 x(end) 0 y(end)]);
