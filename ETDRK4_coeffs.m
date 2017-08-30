@@ -1,6 +1,6 @@
 function [eL,eL2,Q,fu,fab,fc] = ETDRK4_coeffs(beta,mu,nu2,nu4,ksq,KX,del2,dt,Nx,Ny);
 
-% calculation of the EDTRK4 coefficients
+% calculation of the ETDRK4 coefficients
 
  L  = -1i*beta*KX./del2 - mu - nu2*ksq - nu4*ksq.^2;
 eL  = exp(L*dt);
