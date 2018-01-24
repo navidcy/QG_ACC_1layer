@@ -1,6 +1,6 @@
 function [nlin_z,nlin_U] = DtUzeta_ETDRK4(zhat, U)
 
-global etahat detadx detady del2 mu KX KY Nx Ny F;
+global etahat del2 mu KX KY Nx Ny F;
 
 if abs(zhat(KX==0&KY==0))>1e-10
     error('zhat has power at (kx,ky)=(0,0)');
@@ -10,14 +10,11 @@ psihat = zhat./del2;
 
 formstress = real(mean(conj(psihat(:)).*(1i*KX(:).*etahat(:)))) / (Nx*Ny);
 
-dpsidx  = real(ifft2(1i*KX.*psihat));
-dpsidy  = real(ifft2(1i*KY.*psihat));
-dzetadx = real(ifft2(1i*KX.*zhat));
-dzetady = real(ifft2(1i*KY.*zhat));
-
-J  = dpsidx.*(dzetady+detady) - dpsidy.*(dzetadx+detadx);
+q = +real(ifft2(zhat+etahat));
+u = -real(ifft2(1i*KY.*psihat));
+v = +real(ifft2(1i*KX.*psihat));
 
 nlin_U = F - mu*U - formstress;
-nlin_z = fft2( -J -U*(dzetadx+detadx) );
+nlin_z = -1i*KX.*fft2((U + u).*q) - 1i*KY.*fft2(v.*q);
 
 end
